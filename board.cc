@@ -1,19 +1,32 @@
-#include <GL/gl.h>
+#include <SFML/Graphics.hpp>
 
-void draw(int width, int height) 
+#include "board.hh"
+
+Board::Board()
 {
-    int offset = 1;
-    int size = 1;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            glBegin(GL_QUADS);
-                if (i % 2 == 0) glColor3f(1.f, 1.f, 1.f);
-                else glColor3f(0.f, 0.f, 0.f);
-                glVertex2i(size * i, size * j);
-                glVertex2i(size * i + offset, size * j);
-                glVertex2i(size * i + offset, size * j + offset);
-                glVertex2i(size * i, size * j + offset);
-            glEnd();
-        }
+    for (int i = 0; i < 64; i++) {
+        this->squares[i] = new sf::CircleShape(75, 4);
+        this->squares[i]->setPosition((i % 8) * 100 + 50, ((int) i/8) * 100 - 50);
+        this->squares[i]->setRotation(45);
+        if (i % 2 == ((int) i/8) % 2) this->squares[i]->setFillColor(sf::Color(250, 205, 170));
+        else this->squares[i]->setFillColor(sf::Color(170, 128, 96));
     }
 }
+
+Board::~Board() 
+{
+    //delete[] *this->squares;
+}
+
+
+void Board::draw(sf::RenderTarget& target, sf::RenderStates state) const
+{
+    for (int i = 0; i < 64; i++) target.draw(*this->squares[i], state);
+}
+
+/*
+void Board::draw(sf::RenderTarget& target, sf::RenderStates state) const
+{
+    for (int i = 0; i < 64; i++) target.draw(*this->squares[i], state);
+}
+*/
