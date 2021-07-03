@@ -3,12 +3,14 @@
 #include <iostream>
 
 #include "board.hh"
+#include "pieces.hh"
 
 int main(int argc, char const *argv[])
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Chess");
     
     Board board;
+    Pieces pieces;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -19,6 +21,7 @@ int main(int argc, char const *argv[])
         
         window.clear();
         window.draw(board);
+        window.draw(pieces);
         window.display();
     }
 
