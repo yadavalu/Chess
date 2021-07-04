@@ -11,6 +11,7 @@ int main(int argc, char const *argv[])
     
     Board board;
     Pieces pieces;
+    pieces.SetLocation();
 
     while (window.isOpen()) {
         sf::Event event;

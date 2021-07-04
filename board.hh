@@ -11,7 +11,6 @@ public:
 
 private:
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
-    //virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 
     sf::CircleShape *squares[64];
 };

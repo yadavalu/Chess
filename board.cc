@@ -15,18 +15,9 @@ Board::Board()
 
 Board::~Board() 
 {
-    //delete[] *this->squares;
 }
-
 
 void Board::draw(sf::RenderTarget& target, sf::RenderStates state) const
 {
     for (int i = 0; i < 64; i++) target.draw(*this->squares[i], state);
 }
-
-/*
-void Board::draw(sf::RenderTarget& target, sf::RenderStates state) const
-{
-    for (int i = 0; i < 64; i++) target.draw(*this->squares[i], state);
-}
-*/
