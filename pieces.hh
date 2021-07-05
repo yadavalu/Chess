@@ -12,6 +12,11 @@ public:
     Pieces();
     void SetLocation();
     void PairLocation();
+    
+    std::vector<sf::Sprite> GetWhiteSprites();
+    std::vector<std::string> GetWhiteLocations();
+    std::vector<sf::Sprite> GetBlackSprites();
+    std::vector<std::string> GetBlackLocations();
 
 private:
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
@@ -19,8 +24,7 @@ private:
     std::vector<sf::Texture> white_textures, black_textures;
     std::vector<sf::Sprite> white_sprites, black_sprites;
 
-    std::vector<std::pair<std::pair<int, int>, char *>> locations;
-    std::vector<std::pair<sf::Sprite, char *>> black, white;
+    std::vector<std::string> white_locations, black_locations;
 };
 
 #endif

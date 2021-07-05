@@ -2,7 +2,7 @@ CXX := g++
 CXXFLAGS := -std=c++17 -g
 LDFLAGS := -lsfml-window -lsfml-graphics -lsfml-system
 
-OBJS := main.o board.o pieces.o
+OBJS := main.o board.o pieces.o places.o
 
 
 chess: $(OBJS)

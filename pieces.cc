@@ -74,60 +74,26 @@ Pieces::Pieces()
 void Pieces::SetLocation()
 {
     for (int i = 0; i < black_sprites.size(); i++) {
-        //black_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
-	 	//			                (i < 8 ? 0:100)));
-        for (int j = 0; j < locations.size(); j++) {
-            if (std::get<1>(black[j]) == std::get<1>(locations[j])) {
-                black_sprites[i].setPosition(sf::Vector2f(std::get<0>(std::get<0>(locations[j])), std::get<1>(std::get<0>(locations[j]))));
-            }
-        }
+        black_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
+	 				                (i < 8 ? 0:100)));
     }
 
     for (int i = 0; i < white_sprites.size(); i++) {
-        //white_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
-	 	//			                (i < 8 ? 600:700)));
-        for (int j = 0; j < locations.size(); j++) {
-            if (std::get<1>(white[j]) == std::get<1>(locations[j])) {
-                white_sprites[i].setPosition(sf::Vector2f(std::get<0>(std::get<0>(locations[j])), std::get<1>(std::get<0>(locations[j]))));
-            }
-        }
+        white_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
+	 				                (i < 8 ? 600:700)));
     }
 }
 
 void Pieces::PairLocation()
 {
-    //TODO
-    locations = {
-        {{0, 0}, "a8"}, {{0, 100}, "a7"}, {{0, 200}, "a6"}, {{0, 300}, "a5"}, 
-        {{0, 400}, "a4"}, {{0, 500}, "a3"}, {{0, 600}, "a2"}, {{0, 700}, "a1"},
-        {{100, 0}, "b8"}, {{100, 100}, "b7"}, {{100, 200}, "b6"}, {{100, 300}, "b5"}, 
-        {{100, 400}, "b4"}, {{100, 500}, "b3"}, {{100, 600}, "b2"}, {{100, 700}, "b1"},
-        {{200, 0}, "c8"}, {{200, 100}, "c7"}, {{200, 200}, "c6"}, {{200, 300}, "c5"}, 
-        {{200, 400}, "c4"}, {{200, 500}, "c3"}, {{200, 600}, "c2"}, {{200, 700}, "c1"},
-        {{300, 0}, "d8"}, {{300, 100}, "d7"}, {{300, 200}, "d6"}, {{300, 300}, "d5"}, 
-        {{300, 400}, "d4"}, {{300, 500}, "d3"}, {{300, 600}, "d2"}, {{300, 700}, "d1"},
-        {{400, 0}, "e8"}, {{400, 100}, "e7"}, {{400, 200}, "e6"}, {{400, 300}, "e5"}, 
-        {{400, 400}, "e4"}, {{400, 500}, "e3"}, {{400, 600}, "e2"}, {{400, 700}, "e1"},
-        {{500, 0}, "f8"}, {{500, 100}, "f7"}, {{500, 200}, "f6"}, {{500, 300}, "f5"}, 
-        {{500, 400}, "f4"}, {{500, 500}, "f3"}, {{500, 600}, "f2"}, {{500, 700}, "f1"},
-        {{600, 0}, "g8"}, {{600, 100}, "g7"}, {{600, 200}, "g6"}, {{600, 300}, "g5"}, 
-        {{600, 400}, "g4"}, {{600, 500}, "g3"}, {{600, 600}, "g2"}, {{600, 700}, "g1"},
-        {{700, 0}, "h8"}, {{700, 100}, "h7"}, {{700, 200}, "h6"}, {{700, 300}, "h5"}, 
-        {{700, 400}, "h4"}, {{700, 500}, "h3"}, {{700, 600}, "h2"}, {{700, 700}, "h1"},
+    white_locations = {
+        "A2", "B2", "C2", "D2", "E2", "F2", "G2", "H2",
+        "A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1",
     };
 
-    white = {
-        {white_sprites[0], "a2"}, {white_sprites[1], "b2"}, {white_sprites[2], "c2"}, {white_sprites[3], "d2"},
-        {white_sprites[4], "e2"}, {white_sprites[5], "f2"}, {white_sprites[6], "g2"}, {white_sprites[7], "h2"},
-        {white_sprites[8], "a1"}, {white_sprites[9], "b1"}, {white_sprites[10], "c1"}, {white_sprites[11], "d1"},
-        {white_sprites[12], "e1"}, {white_sprites[13], "f1"}, {white_sprites[14], "g1"}, {white_sprites[15], "h1"},
-    };
-
-    black = {
-        {black_sprites[0], "a8"}, {black_sprites[1], "b8"}, {black_sprites[2], "c8"}, {black_sprites[3], "d8"},
-        {black_sprites[4], "e8"}, {black_sprites[5], "f8"}, {black_sprites[6], "g8"}, {black_sprites[7], "h8"},
-        {black_sprites[8], "a7"}, {black_sprites[9], "b7"}, {black_sprites[10], "c7"}, {black_sprites[11], "d7"},
-        {black_sprites[12], "e8"}, {black_sprites[13], "f8"}, {black_sprites[14], "g8"}, {black_sprites[15], "h8"},
+    black_locations = {
+        "A8", "B8", "C8", "D8", "E8", "F8", "G8", "H8",
+        "A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7",
     };
 }
 
@@ -136,3 +102,24 @@ void Pieces::draw(sf::RenderTarget& target, sf::RenderStates state) const
     for (int i = 0; i < white_sprites.size(); i++) target.draw(white_sprites[i], state);
     for (int i = 0; i < black_sprites.size(); i++) target.draw(black_sprites[i], state);
 }
+
+std::vector<sf::Sprite> Pieces::GetWhiteSprites()
+{
+    return this->white_sprites;
+}
+
+std::vector<std::string> Pieces::GetWhiteLocations()
+{
+    return this->white_locations;
+}
+
+std::vector<sf::Sprite> Pieces::GetBlackSprites()
+{
+    return this->black_sprites;
+}
+
+std::vector<std::string> Pieces::GetBlackLocations()
+{
+    return this->black_locations;
+}
+
