@@ -9,6 +9,9 @@ public:
     Board();
     ~Board();
 
+    void SetColours();
+    void UpdateColours(sf::Vector2i pos);
+
 private:
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 

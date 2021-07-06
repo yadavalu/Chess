@@ -15,10 +15,11 @@ int main(int argc, char const *argv[])
     
     Board board;
     Pieces pieces;
+    pieces.PairLocation();
     pieces.SetLocation();
 
-    sf::Sprite sp_moving;
-    bool moving;
+    int moving_index;
+    bool moving = false;
 
     unsigned int turn = WHITE;
 
@@ -29,20 +30,32 @@ int main(int argc, char const *argv[])
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) window.close();
             if (event.type == sf::Event::MouseButtonReleased) {
-                // TODO: Pieces don't move
                 pos = sf::Mouse::getPosition(window);
                 std::string move = GetNotes(pos);
                 std::cout << pos.x << ", " << pos.y << ": " << move << std::endl;
                 
+                // Causes SIGSEGV
+                //board.UpdateColours(pos);
+                
                 std::vector<std::string> locations = 
                         (turn == WHITE ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
+                std::cout << locations.size() << std::endl;
 
                 for (unsigned int i = 0; i < locations.size(); i++) {
-                    if (!moving) if (locations[i] == move) sp_moving = pieces.GetWhiteSprites()[i];
-                    else {
-                        sp_moving.setPosition(sf::Vector2f(GetLocations(move)));
+                    if (!moving) {
+                        if (locations[i] == move) {
+                            moving_index = i;
+                            std::cout << locations[i] << ", " << i << std::endl;
+                            moving = true;
+                            break;
+                        }
+                    } else {
+                        std::cout << GetLocations(move).x << ", " << GetLocations(move).y << std::endl;
+                        pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
+                        //board.SetColours();
                         moving = false;
-                        turn = BLACK;
+                        turn++;
+                        turn = turn % 2;
                     }
                 }
             }

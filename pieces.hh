@@ -12,7 +12,9 @@ public:
     Pieces();
     void SetLocation();
     void PairLocation();
-    
+
+    void Move(int, int, sf::Vector2f);
+
     std::vector<sf::Sprite> GetWhiteSprites();
     std::vector<std::string> GetWhiteLocations();
     std::vector<sf::Sprite> GetBlackSprites();

@@ -1,4 +1,5 @@
 #include "pieces.hh"
+#include "places.hh"
 
 Pieces::Pieces()
 {
@@ -52,7 +53,7 @@ Pieces::Pieces()
     sf::Sprite w_r2(this->white_textures[1]);
     this->white_sprites = 
     { w_p1, w_p2, w_p3, w_p4, w_p5, w_p6, w_p7, w_p8, 
-      w_r1, w_kn1, w_b1, w_ki, w_qu, w_b2, w_kn2, w_r2 };
+      w_r1, w_kn1, w_b1, w_qu, w_ki, w_b2, w_kn2, w_r2 };
     // Black sprites
     sf::Sprite b_p1(this->black_textures[0]), b_p2(this->black_textures[0]),
                 b_p3(this->black_textures[0]), b_p4(this->black_textures[0]), 
@@ -67,7 +68,7 @@ Pieces::Pieces()
     sf::Sprite b_kn2(this->black_textures[2]);
     sf::Sprite b_r2(this->black_textures[1]);
     this->black_sprites = 
-    { b_r1, b_kn1, b_b1, b_ki, b_qu, b_b2, b_kn2, b_r2,
+    { b_r1, b_kn1, b_b1, b_qu, b_ki, b_b2, b_kn2, b_r2,
       b_p1, b_p2, b_p3, b_p4, b_p5, b_p6, b_p7, b_p8 };
 }
 
@@ -96,6 +97,18 @@ void Pieces::PairLocation()
         "A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7",
     };
 }
+
+void Pieces::Move(int colour, int index, sf::Vector2f pos)
+{
+    if (colour == 0) {
+        this->white_sprites[index].setPosition(pos);
+        this->white_locations[index] = GetNotes(sf::Vector2i(pos));
+    } else {
+        this->black_sprites[index].setPosition(pos);
+        this->black_locations[index] = GetNotes(sf::Vector2i(pos));
+    }
+}
+
 
 void Pieces::draw(sf::RenderTarget& target, sf::RenderStates state) const
 {
