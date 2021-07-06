@@ -23,6 +23,25 @@ int main(int argc, char const *argv[])
 
     unsigned int turn = WHITE;
 
+    sf::RectangleShape rect(sf::Vector2f(200, 800));
+    rect.setPosition(800, 0);
+    rect.setFillColor(sf::Color(100, 100, 100));
+
+    sf::CircleShape outline(71, 4);
+    outline.setFillColor(sf::Color(0, 0, 0, 155));
+    outline.setRotation(45);
+    outline.setOutlineColor(sf::Color::Blue);
+    bool draw_outline = false;
+
+    sf::CircleShape white(10);
+    white.setFillColor(sf::Color::White);
+    white.setPosition(850, 700);
+
+    sf::CircleShape black(10);
+    black.setFillColor(sf::Color::Black);
+    black.setPosition(850, 0);
+    
+
     while (window.isOpen()) {
         sf::Event event;
         sf::Vector2i pos;
@@ -34,9 +53,8 @@ int main(int argc, char const *argv[])
                 std::string move = GetNotes(pos);
                 std::cout << pos.x << ", " << pos.y << ": " << move << std::endl;
                 
-                // Causes SIGSEGV
+                // Doesn't work
                 board.UpdateColours(pos);
-                
                 std::vector<std::string> locations = 
                         (turn == WHITE ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
 
@@ -45,6 +63,8 @@ int main(int argc, char const *argv[])
                         if (locations[i] == move) {
                             moving_index = i;
                             moving = true;
+                            draw_outline = true;
+                            outline.setPosition(sf::Vector2f(GetLocations(move)) - sf::Vector2f(-50, 50));
                             break;
                         }
                     } else {
@@ -59,16 +79,21 @@ int main(int argc, char const *argv[])
                         pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
                         board.SetColours();
                         moving = false;
+                        draw_outline = false;
                         turn++;
                         turn = turn % 2;
                     }
                 }
             }
         }
-        
+
         window.clear();
+        window.draw(rect);
         window.draw(board);
         window.draw(pieces);
+        if (draw_outline) window.draw(outline);
+        if (turn == WHITE) window.draw(white);
+        else window.draw(black);
         window.display();
     }
 
