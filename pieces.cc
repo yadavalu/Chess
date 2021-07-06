@@ -83,6 +83,9 @@ void Pieces::SetLocation()
         white_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
 	 				                (i < 8 ? 600:700)));
     }
+
+    removed_black = 0;
+    removed_white = 0;
 }
 
 void Pieces::PairLocation()
@@ -106,6 +109,21 @@ void Pieces::Move(int colour, int index, sf::Vector2f pos)
     } else {
         this->black_sprites[index].setPosition(pos);
         this->black_locations[index] = GetNotes(sf::Vector2i(pos));
+    }
+}
+
+void Pieces::Remove(int index, int colour)
+{
+    if (colour == 0) {
+        this->white_locations[index] = "null";
+        this->white_sprites[index].setPosition(850 + removed_white * 20, 0);
+        this->white_sprites[index].setScale(0.2, 0.2);
+        removed_white++;
+    } else {
+        this->black_locations[index] = "null";
+        this->black_sprites[index].setPosition(850 + removed_black * 20, 700);
+        this->black_sprites[index].setScale(0.2, 0.2);
+        removed_black++;
     }
 }
 

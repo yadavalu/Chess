@@ -14,6 +14,7 @@ public:
     void PairLocation();
 
     void Move(int, int, sf::Vector2f);
+    void Remove(int, int);
 
     std::vector<sf::Sprite> GetWhiteSprites();
     std::vector<std::string> GetWhiteLocations();
@@ -27,6 +28,8 @@ private:
     std::vector<sf::Sprite> white_sprites, black_sprites;
 
     std::vector<std::string> white_locations, black_locations;
+
+    int removed_white, removed_black;
 };
 
 #endif

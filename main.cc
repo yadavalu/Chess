@@ -11,7 +11,7 @@
 
 int main(int argc, char const *argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(800, 800), "Chess");
+    sf::RenderWindow window(sf::VideoMode(1000, 800), "Chess");
     
     Board board;
     Pieces pieces;
@@ -35,24 +35,29 @@ int main(int argc, char const *argv[])
                 std::cout << pos.x << ", " << pos.y << ": " << move << std::endl;
                 
                 // Causes SIGSEGV
-                //board.UpdateColours(pos);
+                board.UpdateColours(pos);
                 
                 std::vector<std::string> locations = 
                         (turn == WHITE ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
-                std::cout << locations.size() << std::endl;
 
                 for (unsigned int i = 0; i < locations.size(); i++) {
                     if (!moving) {
                         if (locations[i] == move) {
                             moving_index = i;
-                            std::cout << locations[i] << ", " << i << std::endl;
                             moving = true;
                             break;
                         }
                     } else {
-                        std::cout << GetLocations(move).x << ", " << GetLocations(move).y << std::endl;
+                        std::vector<std::string> o_locations = 
+                                (turn == BLACK ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
+                        for (int i = 0; i < o_locations.size(); i++) {
+                            if (o_locations[i] == move) {
+                                pieces.Remove(i, !turn);
+                                break;
+                            }
+                        }
                         pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
-                        //board.SetColours();
+                        board.SetColours();
                         moving = false;
                         turn++;
                         turn = turn % 2;

@@ -29,16 +29,12 @@ void Board::SetColours()
 
 void Board::UpdateColours(sf::Vector2i pos)
 {
-    int iter;
     for (int i = 0; i < 64; i++) {
         if (this->squares[i]->getPosition() == sf::Vector2f(pos)) {
-            iter = i;
+            this->squares[i]->setFillColor(sf::Color::Blue);
             break;
         }
     }
-
-    // TODO: Causes SIGSEGV
-    this->squares[iter]->setFillColor(sf::Color(0, 255, 0));
 }
 
 void Board::draw(sf::RenderTarget& target, sf::RenderStates state) const
