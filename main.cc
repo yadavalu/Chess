@@ -5,9 +5,9 @@
 #include "board.hh"
 #include "pieces.hh"
 #include "places.hh"
+#include "piece.hh"
+#include "valid.hh"
 
-#define WHITE 0
-#define BLACK 1
 
 int main(int argc, char const *argv[])
 {
@@ -17,6 +17,7 @@ int main(int argc, char const *argv[])
     Pieces pieces;
     pieces.PairLocation();
     pieces.SetLocation();
+    Valid valid(pieces.GetWhiteLocations(), pieces.GetBlackLocations());
 
     int moving_index;
     bool moving = false;
@@ -68,20 +69,26 @@ int main(int argc, char const *argv[])
                             break;
                         }
                     } else {
-                        std::vector<std::string> o_locations = 
-                                (turn == BLACK ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
-                        for (int i = 0; i < o_locations.size(); i++) {
-                            if (o_locations[i] == move) {
-                                pieces.Remove(i, !turn);
-                                break;
+						// TODO
+                        std::vector<std::string> vaildmoves = valid.CheckValidity(turn, pieces.GetPieceFromIndex(turn, moving_index), moving_index);
+                        for (int i = 0; i < vaildmoves.size(); i++) {
+                            if (vaildmoves[i] == move) {
+                                std::vector<std::string> o_locations = 
+                                        (turn == BLACK ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
+                                for (int i = 0; i < o_locations.size(); i++) {
+                                    if (o_locations[i] == move) {
+                                        pieces.Remove(i, !turn);
+                                        break;
+                                    }
+                                }
+                                pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
+                                board.SetColours();
+                                moving = false;
+                                draw_outline = false;
+                                turn++;
+                                turn = turn % 2;
                             }
                         }
-                        pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
-                        board.SetColours();
-                        moving = false;
-                        draw_outline = false;
-                        turn++;
-                        turn = turn % 2;
                     }
                 }
             }

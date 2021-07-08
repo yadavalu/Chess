@@ -1,4 +1,5 @@
 #include "pieces.hh"
+#include "piece.hh"
 #include "places.hh"
 
 #include <cmath>
@@ -129,6 +130,12 @@ void Pieces::Remove(int index, int colour)
         this->black_sprites[index].setScale(0.2, 0.2);
         removed_black++;
     }
+}
+
+int Pieces::GetPieceFromIndex(int, int)
+{
+    // TODO
+    return PAWN;
 }
 
 
