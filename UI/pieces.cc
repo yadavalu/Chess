@@ -1,8 +1,5 @@
 #include "pieces.hh"
-#include "piece.hh"
 #include "places.hh"
-
-#include <cmath>
 
 Pieces::Pieces()
 {
@@ -73,9 +70,6 @@ Pieces::Pieces()
     this->black_sprites = 
     { b_r1, b_kn1, b_b1, b_qu, b_ki, b_b2, b_kn2, b_r2,
       b_p1, b_p2, b_p3, b_p4, b_p5, b_p6, b_p7, b_p8 };
-
-    removed_black = 0;
-    removed_white = 0;
 }
 
 void Pieces::SetLocation()
@@ -89,6 +83,9 @@ void Pieces::SetLocation()
         white_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
 	 				                (i < 8 ? 600:700)));
     }
+
+    removed_black = 0;
+    removed_white = 0;
 }
 
 void Pieces::PairLocation()
@@ -119,23 +116,15 @@ void Pieces::Remove(int index, int colour)
 {
     if (colour == 0) {
         this->white_locations[index] = "null";
-        // TODO
-        this->white_sprites[index].setPosition(900 + removed_white * 20, /* Doesn't work */ std::floor(removed_white/5) * 20);
+        this->white_sprites[index].setPosition(850 + removed_white * 20, 25);
         this->white_sprites[index].setScale(0.2, 0.2);
         removed_white++;
     } else {
         this->black_locations[index] = "null";
-        // TODO
-        this->black_sprites[index].setPosition(900 + removed_black * 20, /* Doesn't work */ 700 - std::floor(removed_black/5) * 20);
+        this->black_sprites[index].setPosition(850 + removed_black * 20, 700);
         this->black_sprites[index].setScale(0.2, 0.2);
         removed_black++;
     }
-}
-
-int Pieces::GetPieceFromIndex(int, int)
-{
-    // TODO
-    return PAWN;
 }
 
 

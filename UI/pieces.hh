@@ -16,8 +16,6 @@ public:
     void Move(int, int, sf::Vector2f);
     void Remove(int, int);
 
-    int GetPieceFromIndex(int, int);
-
     std::vector<sf::Sprite> GetWhiteSprites();
     std::vector<std::string> GetWhiteLocations();
     std::vector<sf::Sprite> GetBlackSprites();

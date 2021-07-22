@@ -5,9 +5,9 @@
 #include "board.hh"
 #include "pieces.hh"
 #include "places.hh"
-#include "piece.hh"
-#include "valid.hh"
 
+#define WHITE 0
+#define BLACK 1
 
 int main(int argc, char const *argv[])
 {
@@ -17,31 +17,36 @@ int main(int argc, char const *argv[])
     Pieces pieces;
     pieces.PairLocation();
     pieces.SetLocation();
-    Valid valid(pieces.GetWhiteLocations(), pieces.GetBlackLocations());
 
     int moving_index;
     bool moving = false;
 
     unsigned int turn = WHITE;
+    int white_points_int = 0, black_points_int = 0;
 
-    sf::RectangleShape rect(sf::Vector2f(200, 800));
-    rect.setPosition(800, 0);
-    rect.setFillColor(sf::Color(100, 100, 100));
+    sf::CircleShape white_turn_circle(10), black_turn_circle(10);
+    white_turn_circle.setFillColor(sf::Color::White);
+    white_turn_circle.setPosition(825, 700);
+    black_turn_circle.setFillColor(sf::Color::Black);
+    black_turn_circle.setPosition(825, 25);
 
-    sf::CircleShape outline(71, 4);
-    outline.setFillColor(sf::Color(0, 0, 0, 155));
-    outline.setRotation(45);
-    outline.setOutlineColor(sf::Color::Blue);
-    bool draw_outline = false;
+    sf::RectangleShape selected(sf::Vector2f(100, 100));
+    selected.setFillColor(sf::Color(0, 0, 0, 100));
 
-    sf::CircleShape white(10);
-    white.setFillColor(sf::Color::White);
-    white.setPosition(850, 700);
+    /*
+     * TODO
 
-    sf::CircleShape black(10);
-    black.setFillColor(sf::Color::Black);
-    black.setPosition(850, 0);
-    
+    sf::Font font;
+    font.loadFromFile("font/FiraCode-Light.ttf");
+
+    sf::Text white_points, black_points;
+    white_points.setFont(font);
+    black_points.setFont(font);
+    white_points.setString('0');//sf::String((char) white_points_int));
+    black_points.setString('0');//sf::String((char) black_points_int));
+    white_points.setPosition(825, 50);
+    black_points.setPosition(825, 675);
+     */
 
     while (window.isOpen()) {
         sf::Event event;
@@ -54,8 +59,9 @@ int main(int argc, char const *argv[])
                 std::string move = GetNotes(pos);
                 std::cout << pos.x << ", " << pos.y << ": " << move << std::endl;
                 
-                // Doesn't work
+                // Causes SIGSEGV
                 board.UpdateColours(pos);
+                
                 std::vector<std::string> locations = 
                         (turn == WHITE ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
 
@@ -64,43 +70,33 @@ int main(int argc, char const *argv[])
                         if (locations[i] == move) {
                             moving_index = i;
                             moving = true;
-                            draw_outline = true;
-                            outline.setPosition(sf::Vector2f(GetLocations(move)) - sf::Vector2f(-50, 50));
+                            selected.setPosition(sf::Vector2f(GetLocations(move)));
                             break;
                         }
                     } else {
-						// TODO
-                        std::vector<std::string> vaildmoves = valid.CheckValidity(turn, pieces.GetPieceFromIndex(turn, moving_index), moving_index);
-                        for (int i = 0; i < vaildmoves.size(); i++) {
-                            if (vaildmoves[i] == move) {
-                                std::vector<std::string> o_locations = 
-                                        (turn == BLACK ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
-                                for (int i = 0; i < o_locations.size(); i++) {
-                                    if (o_locations[i] == move) {
-                                        pieces.Remove(i, !turn);
-                                        break;
-                                    }
-                                }
-                                pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
-                                board.SetColours();
-                                moving = false;
-                                draw_outline = false;
-                                turn++;
-                                turn = turn % 2;
+                        std::vector<std::string> o_locations = 
+                                (turn == BLACK ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
+                        for (int i = 0; i < o_locations.size(); i++) {
+                            if (o_locations[i] == move) {
+                                pieces.Remove(i, !turn);
+                                break;
                             }
                         }
+                        pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
+                        board.SetColours();
+                        moving = false;
+                        turn++;
+                        turn = turn % 2;
                     }
                 }
             }
         }
-
-        window.clear();
-        window.draw(rect);
+        
+        window.clear(sf::Color(50, 50, 50));
         window.draw(board);
+        if (moving) window.draw(selected);
         window.draw(pieces);
-        if (draw_outline) window.draw(outline);
-        if (turn == WHITE) window.draw(white);
-        else window.draw(black);
+        turn ? window.draw(black_turn_circle):window.draw(white_turn_circle);
         window.display();
     }
 

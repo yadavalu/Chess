@@ -29,7 +29,6 @@ void Board::SetColours()
 
 void Board::UpdateColours(sf::Vector2i pos)
 {
-    // Doesn't work
     for (int i = 0; i < 64; i++) {
         if (this->squares[i]->getPosition() == sf::Vector2f(pos)) {
             this->squares[i]->setFillColor(sf::Color::Blue);
