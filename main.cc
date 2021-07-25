@@ -6,8 +6,8 @@
 #include "pieces.hh"
 #include "places.hh"
 
-#define WHITE 0
-#define BLACK 1
+#include "enumerate.hh"
+
 
 int main(int argc, char const *argv[])
 {
@@ -74,23 +74,33 @@ int main(int argc, char const *argv[])
                         }
                     } else {
                         std::vector<std::string> o_locations = 
-                                (turn == BLACK ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
+                                (turn == BLACK ? pieces.GetWhiteLocations(): pieces.GetBlackLocations());
+                        std::vector<std::string> oo_locations = 
+                                (turn == WHITE ? pieces.GetWhiteLocations(): pieces.GetBlackLocations());
+
                         for (int i = 0; i < o_locations.size(); i++) {
                             if (o_locations[i] == move) {
                                 pieces.Remove(i, !turn);
                                 break;
                             }
+
+                            if (oo_locations[i] == move) {
+                                moving = false;
+                                break;
+                            }
                         }
 
-                        approx_pos_2 = GetLocations(move);
-                        std::cout << "approx_pos_2: " << approx_pos_2.x << ", " << approx_pos_2.y << std::endl;
-                        
-                        pieces.Move(turn, moving_index, sf::Vector2f(approx_pos_2));
                         board.SetColours();
-                        board.UpdateColours(approx_pos_1, approx_pos_2);
-                        moving = false;
-                        turn++;
-                        turn = turn % 2;
+                        if (moving) {
+                            approx_pos_2 = GetLocations(move);
+                            std::cout << "approx_pos_2: " << approx_pos_2.x << ", " << approx_pos_2.y << std::endl;
+                        
+                            pieces.Move(turn, moving_index, sf::Vector2f(approx_pos_2));
+                            board.UpdateColours(approx_pos_1, approx_pos_2);
+                            moving = false;
+                            turn++;
+                            turn = turn % 2;
+                        }
                     }
                 }
             }
@@ -99,7 +109,7 @@ int main(int argc, char const *argv[])
         window.clear(sf::Color(50, 50, 50));
         window.draw(board);
         window.draw(pieces);
-        turn ? window.draw(black_turn_circle):window.draw(white_turn_circle);
+        turn ? window.draw(black_turn_circle): window.draw(white_turn_circle);
         window.display();
     }
 

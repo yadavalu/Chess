@@ -6,7 +6,7 @@
 #include <vector>
 #include <utility>
 
-class Pieces : public sf::Drawable
+class Pieces: public sf::Drawable
 {
 public:
     Pieces();

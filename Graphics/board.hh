@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class Board : public sf::Drawable
+class Board: public sf::Drawable
 {
 public:
     Board();
