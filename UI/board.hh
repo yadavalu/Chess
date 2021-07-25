@@ -11,11 +11,12 @@ public:
 
     void SetColours();
     void UpdateColours(sf::Vector2i pos);
+    void UpdateColours(sf::Vector2i pos1, sf::Vector2i pos2);
 
 private:
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-    sf::CircleShape *squares[64];
+    sf::RectangleShape *squares[64];
 };
 
 #endif 

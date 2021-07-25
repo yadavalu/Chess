@@ -75,13 +75,13 @@ Pieces::Pieces()
 void Pieces::SetLocation()
 {
     for (int i = 0; i < black_sprites.size(); i++) {
-        black_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
-	 				                (i < 8 ? 0:100)));
+        black_sprites[i].setPosition(sf::Vector2f(60*(i % 8), 
+	 				                (i < 8 ? 0:60)));
     }
 
     for (int i = 0; i < white_sprites.size(); i++) {
-        white_sprites[i].setPosition(sf::Vector2f(100*(i % 8), 
-	 				                (i < 8 ? 600:700)));
+        white_sprites[i].setPosition(sf::Vector2f(60*(i % 8), 
+	 				                (i < 8 ? 360:420)));
     }
 
     removed_black = 0;
@@ -116,13 +116,13 @@ void Pieces::Remove(int index, int colour)
 {
     if (colour == 0) {
         this->white_locations[index] = "null";
-        this->white_sprites[index].setPosition(850 + removed_white * 20, 25);
-        this->white_sprites[index].setScale(0.2, 0.2);
+        this->white_sprites[index].setPosition(525 + removed_white * 20, 25);
+        this->white_sprites[index].setScale(0.3, 0.3);
         removed_white++;
     } else {
         this->black_locations[index] = "null";
-        this->black_sprites[index].setPosition(850 + removed_black * 20, 700);
-        this->black_sprites[index].setScale(0.2, 0.2);
+        this->black_sprites[index].setPosition(525 + removed_black * 20, 420);
+        this->black_sprites[index].setScale(0.3, 0.3);
         removed_black++;
     }
 }

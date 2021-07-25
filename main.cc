@@ -11,7 +11,7 @@
 
 int main(int argc, char const *argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(1000, 800), "Chess");
+    sf::RenderWindow window(sf::VideoMode(680, 480), "Chess");
     
     Board board;
     Pieces pieces;
@@ -24,14 +24,13 @@ int main(int argc, char const *argv[])
     unsigned int turn = WHITE;
     int white_points_int = 0, black_points_int = 0;
 
-    sf::CircleShape white_turn_circle(10), black_turn_circle(10);
+    sf::CircleShape white_turn_circle(5), black_turn_circle(5);
     white_turn_circle.setFillColor(sf::Color::White);
-    white_turn_circle.setPosition(825, 700);
+    white_turn_circle.setPosition(500, 420);
     black_turn_circle.setFillColor(sf::Color::Black);
-    black_turn_circle.setPosition(825, 25);
+    black_turn_circle.setPosition(500, 25);
 
-    sf::RectangleShape selected(sf::Vector2f(100, 100));
-    selected.setFillColor(sf::Color(0, 0, 0, 100));
+    sf::Vector2i approx_pos_1, approx_pos_2;
 
     /*
      * TODO
@@ -59,8 +58,6 @@ int main(int argc, char const *argv[])
                 std::string move = GetNotes(pos);
                 std::cout << pos.x << ", " << pos.y << ": " << move << std::endl;
                 
-                // Causes SIGSEGV
-                board.UpdateColours(pos);
                 
                 std::vector<std::string> locations = 
                         (turn == WHITE ? pieces.GetWhiteLocations():pieces.GetBlackLocations());
@@ -70,7 +67,9 @@ int main(int argc, char const *argv[])
                         if (locations[i] == move) {
                             moving_index = i;
                             moving = true;
-                            selected.setPosition(sf::Vector2f(GetLocations(move)));
+                            approx_pos_1 = GetLocations(move);
+                            board.UpdateColours(approx_pos_1);
+                            std::cout << "approx_pos_1: " << approx_pos_1.x << ", " << approx_pos_1.y << std::endl;
                             break;
                         }
                     } else {
@@ -82,8 +81,13 @@ int main(int argc, char const *argv[])
                                 break;
                             }
                         }
-                        pieces.Move(turn, moving_index, sf::Vector2f(GetLocations(move)));
+
+                        approx_pos_2 = GetLocations(move);
+                        std::cout << "approx_pos_2: " << approx_pos_2.x << ", " << approx_pos_2.y << std::endl;
+                        
+                        pieces.Move(turn, moving_index, sf::Vector2f(approx_pos_2));
                         board.SetColours();
+                        board.UpdateColours(approx_pos_1, approx_pos_2);
                         moving = false;
                         turn++;
                         turn = turn % 2;
@@ -94,7 +98,6 @@ int main(int argc, char const *argv[])
         
         window.clear(sf::Color(50, 50, 50));
         window.draw(board);
-        if (moving) window.draw(selected);
         window.draw(pieces);
         turn ? window.draw(black_turn_circle):window.draw(white_turn_circle);
         window.display();
