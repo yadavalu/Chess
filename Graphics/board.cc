@@ -41,12 +41,12 @@ void Board::UpdateColours(sf::Vector2i pos1, sf::Vector2i pos2)
 {
     for (int i = 0; i < 64; i++) {
         if (this->squares[i]->getPosition() == sf::Vector2f(pos1)) {
-            this->squares[i]->setFillColor(sf::Color(0, 200, 0, 100));
+            this->squares[i]->setFillColor(sf::Color(0, 175, 0));
             std::cout << "pos1 index: " << i << std::endl;
         }
 
         if (this->squares[i]->getPosition() == sf::Vector2f(pos2)) {
-            this->squares[i]->setFillColor(sf::Color(0, 200, 0, 100));
+            this->squares[i]->setFillColor(sf::Color(0, 150, 0));
             std::cout << "pos2 index: " << i << std::endl;
         }
     }
