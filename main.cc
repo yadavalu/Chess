@@ -32,6 +32,8 @@ int main(int argc, char const *argv[])
 
     sf::Vector2i approx_pos_1, approx_pos_2;
 
+    // TODO: sf::View view;
+
     /*
      * TODO
 
@@ -104,6 +106,22 @@ int main(int argc, char const *argv[])
                     }
                 }
             }
+			/*
+			 * TODO
+			 
+			if (event.type == sf::Event::Resized) {
+		        sf::Vector2f size = static_cast<sf::Vector2f>(window.getSize());
+		
+		        if (size.x < 680) size.x = 680;
+		        if (size.y < 480) size.y = 480;
+		
+		        view.setCenter(size/2);
+		        view.setSize(size);
+		        window.setSize(static_cast<sf::Vector2<unsigned int>>(size));
+		        window.setView(sf::View(sf::FloatRect(0, 0, size.x, size.y)));
+			}
+			 */
+			if (event.type == sf::Event::Resized) window.setSize(sf::Vector2u(680, 480));
         }
         
         window.clear(sf::Color(50, 50, 50));
