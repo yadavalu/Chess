@@ -50,3 +50,14 @@ std::string GetNotes(sf::Vector2i locations)
 
     return ret;
 }
+
+int GetIntLocation(std::string location)
+{
+    return GetIntLocation(GetLocations(location));
+}
+
+int GetIntLocation(sf::Vector2i location)
+{
+    sf::Vector2i ret = sf::Vector2i(location.x/60, location.y/60);
+    return ret.x * 8 + ret.y;
+}

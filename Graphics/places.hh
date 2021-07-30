@@ -21,7 +21,9 @@
 
 #include <SFML/Graphics.hpp>
 
-sf::Vector2i GetLocations(std::string locations);
-std::string GetNotes(sf::Vector2i locations);
+sf::Vector2i GetLocations(std::string);
+std::string GetNotes(sf::Vector2i);
+int GetIntLocation(std::string);
+int GetIntLocation(sf::Vector2i);
 
 #endif

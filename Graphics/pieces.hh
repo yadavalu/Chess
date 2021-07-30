@@ -4,7 +4,10 @@
 #include <SFML/Graphics.hpp>
 
 #include <vector>
+#include <array>
 #include <utility>
+
+#include "piece.hh"
 
 class Pieces: public sf::Drawable
 {
@@ -13,7 +16,8 @@ public:
     void SetLocation();
     void PairLocation();
 
-    void Move(int, int, sf::Vector2f);
+    int GetPiece(int, sf::Vector2i);
+    int Move(int, int, sf::Vector2i);
     void Remove(int, int);
 
     std::vector<sf::Sprite> GetWhiteSprites();
@@ -24,11 +28,7 @@ public:
 private:
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-    std::vector<sf::Texture> white_textures, black_textures;
-    std::vector<sf::Sprite> white_sprites, black_sprites;
-
-    std::vector<std::string> white_locations, black_locations;
-
+    std::array<SPiece, 16> pieces_white, pieces_black;
     int removed_white, removed_black;
 };
 

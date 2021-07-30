@@ -1,8 +1,8 @@
 CXX := g++
-CXXFLAGS := -std=c++17 -g -IGraphics -IAI -I.
+CXXFLAGS := -std=c++17 -g -IGraphics -I.
 LDFLAGS := -lsfml-window -lsfml-graphics -lsfml-system
 
-OBJS := main.o Graphics/board.o Graphics/pieces.o Graphics/places.o AI/valid.o
+OBJS := main.o Graphics/board.o Graphics/pieces.o Graphics/places.o Graphics/piece.o
 
 
 chess: $(OBJS)
