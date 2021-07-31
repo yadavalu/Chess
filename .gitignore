@@ -1,0 +1,6 @@
+# Compiled
+*.o
+chess
+
+# QMake
+.qmake.stash
