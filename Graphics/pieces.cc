@@ -49,6 +49,8 @@ int Pieces::GetPiece(int colour, sf::Vector2i _position)
             }
         }
     }
+
+    return -1;
 }
 
 int Pieces::Move(int colour, int index, sf::Vector2i newpos)
@@ -72,6 +74,8 @@ int Pieces::Move(int colour, int index, sf::Vector2i newpos)
         }
         pieces_white[index].Move(newpos);
     }
+
+    return 0;
 }
 
 void Pieces::draw(sf::RenderTarget& target, sf::RenderStates state) const
