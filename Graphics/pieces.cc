@@ -6,9 +6,7 @@
 
 Pieces::Pieces()
 {
-    // Black
-    const char *letters = "ABCDEFGH";
-    
+    // Black    
     for (int i = 0; i < 8; i++) pieces_black[i].Constructor(BLACK, PAWN, sf::Vector2i(60 * i, 60));
     pieces_black[8].Constructor(BLACK, ROOK, "A8");
     pieces_black[9].Constructor(BLACK, KNIGHT, "B8"); 
@@ -49,6 +47,8 @@ int Pieces::GetPiece(int colour, sf::Vector2i _position)
             }
         }
     }
+
+    return -1;
 }
 
 int Pieces::Move(int colour, int index, sf::Vector2i newpos)
@@ -72,6 +72,8 @@ int Pieces::Move(int colour, int index, sf::Vector2i newpos)
         }
         pieces_white[index].Move(newpos);
     }
+
+    return 0;
 }
 
 void Pieces::draw(sf::RenderTarget& target, sf::RenderStates state) const

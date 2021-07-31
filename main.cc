@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
+#include <cmath>
 
 #include "board.hh"
 #include "pieces.hh"
@@ -31,22 +32,17 @@ int main(int argc, char const *argv[])
 
     sf::Vector2i location, approx_pos;
 
-    // TODO: sf::View view;
-
-    /*
-     * TODO
-
     sf::Font font;
     font.loadFromFile("font/FiraCode-Light.ttf");
 
     sf::Text white_points, black_points;
     white_points.setFont(font);
     black_points.setFont(font);
-    white_points.setString('0');//sf::String((char) white_points_int));
-    black_points.setString('0');//sf::String((char) black_points_int));
+    white_points.setString(sf::String(std::to_string(white_points_int)));
+    black_points.setString(sf::String(std::to_string(black_points_int)));
     white_points.setPosition(825, 50);
     black_points.setPosition(825, 675);
-     */
+     
 
     while (window.isOpen()) {
         sf::Event event;
@@ -63,14 +59,18 @@ int main(int argc, char const *argv[])
                 if (!moving) {
                     approx_pos = location;
                     moving_index = pieces.GetPiece(turn, location);
+                    if (moving_index == -1) {
+                        std::cout << "Piece not clicked" << std::endl;
+                        break;
+                    }
                     board.UpdateColours(location);
 
                     moving = true;
                 } else {
                     if (pieces.Move(turn, moving_index, location) == -1) {
                         board.SetColours();
-                        moving_index = NULL;
                         moving = false;
+                        // break;
                     } else {
                         board.SetColours();
                         board.UpdateColours(approx_pos, location);
@@ -80,22 +80,10 @@ int main(int argc, char const *argv[])
                     }
                 }
             }
-			/*
-			 * TODO
-			 
+
 			if (event.type == sf::Event::Resized) {
-		        sf::Vector2f size = static_cast<sf::Vector2f>(window.getSize());
-		
-		        if (size.x < 680) size.x = 680;
-		        if (size.y < 480) size.y = 480;
-		
-		        view.setCenter(size/2);
-		        view.setSize(size);
-		        window.setSize(static_cast<sf::Vector2<unsigned int>>(size));
-		        window.setView(sf::View(sf::FloatRect(0, 0, size.x, size.y)));
-			}
-			 */
-			if (event.type == sf::Event::Resized) window.setSize(sf::Vector2u(680, 480));
+                window.setSize(sf::Vector2u(680, 480));
+            }
         }
         
         window.clear(sf::Color(50, 50, 50));
