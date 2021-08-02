@@ -1,6 +1,4 @@
 # Compiled
 *.o
+Graphics/*.o
 chess
-
-# QMake
-.qmake.stash
