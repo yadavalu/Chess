@@ -1,8 +1,11 @@
 #include "pieces.hh"
 #include "piece.hh"
+#include "places.hh"
 #include "enumerate.hh"
 
 #include <string>
+#include <cmath>
+#include <iostream>
 
 Pieces::Pieces()
 {
@@ -51,26 +54,54 @@ int Pieces::GetPiece(int colour, sf::Vector2i _position)
     return -1;
 }
 
+
+// TODO
+
+/*
+ * Returns 0 if move is valid
+ * Returns -1 if piece wasn't clicked
+ * Returns -2 if move is invalid
+ */
 int Pieces::Move(int colour, int index, sf::Vector2i newpos)
 {
     if (colour == BLACK) {
+        bool moved = false;
+        for (int& i: PossibleMoves(pieces_black[index])) {
+            if (i == GetIntLocation(newpos)) {
+                pieces_black[index].Move(newpos);
+                moved = true;
+                break;
+            }
+        }
+        if (!moved) return -2;
+
         for (int i = 0; i < 16; i++) {
             if (pieces_black[i].GetSprite().getPosition() == sf::Vector2f(newpos)) return -1;
             else if (pieces_white[i].GetSprite().getPosition() == sf::Vector2f(newpos)) {
                 pieces_white[i].Remove(removed_white);
+                removed_white++;
                 break;
             }
         }
-        pieces_black[index].Move(newpos);
     } else {
+        bool moved = false;
+        for (int& i: PossibleMoves(pieces_white[index])) {
+            if (i == GetIntLocation(newpos)) {
+                pieces_white[index].Move(newpos);
+                moved = true;
+                break;
+            }
+        }
+        if (!moved) return -2;
+
         for (int i = 0; i < 16; i++) {
             if (pieces_white[i].GetSprite().getPosition() == sf::Vector2f(newpos)) return -1;
             else if (pieces_black[i].GetSprite().getPosition() == sf::Vector2f(newpos)) {
                 pieces_black[i].Remove(removed_black);
+                removed_black++;
                 break;
             }
         }
-        pieces_white[index].Move(newpos);
     }
 
     return 0;
@@ -82,5 +113,56 @@ void Pieces::draw(sf::RenderTarget& target, sf::RenderStates state) const
         target.draw(pieces_white[i].GetSprite(), state);
         target.draw(pieces_black[i].GetSprite(), state);
     }
+}
+
+std::vector<int> Pieces::PossibleMoves(SPiece piece)
+{
+    std::vector<int> ret;
+    int location = piece.GetPosition();
+    
+    switch (piece.GetType()) {
+    case PAWN:
+        if (piece.GetColour() == BLACK) {
+            // Single move
+            ret.push_back(location + 1);
+            
+            // Double move
+            if (std::floor(location % 8) == 1) ret.push_back(location + 2);
+        } else {
+            // Single move
+            ret.push_back(location - 1);
+            
+            // Double move
+            if (std::floor(location % 8) == 1) ret.push_back(location - 2);
+        }
+
+        piece.GetValidMoves().clear();
+        for (int& i: ret) {
+            std::cout << i << std::endl;
+        }
+
+        // FIXME
+        piece.SetValidMoves(ret);
+        break;
+
+    // TODO
+    case ROOK: break;
+    case KNIGHT: break;
+    case BISHOP: break;
+    case KING: break;
+    case QUEEN: break;
+    }
+
+    return ret;
+}
+
+std::vector<int> Pieces::PossibleTake(SPiece piece)
+{
+    // TODO
+}
+
+std::array<SPiece, 16> Pieces::GetPiecesArray(int colour) const
+{
+    return colour == BLACK ? pieces_black: pieces_white;
 }
 

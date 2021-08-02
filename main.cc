@@ -42,6 +42,8 @@ int main(int argc, char const *argv[])
     black_points.setString(sf::String(std::to_string(black_points_int)));
     white_points.setPosition(825, 50);
     black_points.setPosition(825, 675);
+
+    std::cout << GetIntLocation("E2") << std::endl;
      
 
     while (window.isOpen()) {
@@ -59,20 +61,18 @@ int main(int argc, char const *argv[])
                 if (!moving) {
                     approx_pos = location;
                     moving_index = pieces.GetPiece(turn, location);
-                    if (moving_index == -1) {
-                        std::cout << "Piece not clicked" << std::endl;
-                        break;
-                    }
+                    if (moving_index == -1) break;
                     board.UpdateColours(location);
 
                     moving = true;
                 } else {
-                    if (pieces.Move(turn, moving_index, location) == -1) {
-                        board.SetColours();
+                    int status = pieces.Move(turn, moving_index, location);
+                    if (status == -1) {
                         moving = false;
-                        // break;
-                    } else {
                         board.SetColours();
+                    } else if (status == -2) {
+                        moving = false;
+                    } else if (status == 0) {
                         board.UpdateColours(approx_pos, location);
                         turn++;
                         turn %= 2;

@@ -22,6 +22,8 @@ public:
     int GetColour() const;
     int GetType() const;
     int GetPosition() const;
+    std::vector<int> GetValidMoves() const;
+    void SetValidMoves(std::vector<int>);
 
 private:
     int colour, type, position_int;

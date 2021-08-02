@@ -18,6 +18,7 @@ void SPiece::Constructor(int colour, int type, sf::Vector2i position)
     this->type = type;
     this->position_vector = position;
     this->position_int = GetIntLocation(position);
+    this->valid_moves = {};
 
     std::string child_dir;
     if (colour == BLACK) child_dir = "texture/black/";
@@ -71,14 +72,21 @@ void SPiece::Move(sf::Vector2i _position)
 
 void SPiece::Remove(int n)
 {
-    if (colour == BLACK) {
-        sprite.setPosition(525 + n * 20, 420);
-        sprite.scale(0.3, 0.3);
-        n++;
+    int x, dy;
+    if (n > 7) {
+        dy = 20;
+        x = n % 8;
     } else {
-        sprite.setPosition(525 + n * 20, 25);
+        dy = 0;
+        x = n;
+    }
+
+    if (colour == BLACK) {
+        sprite.setPosition(525 + x * 18, 420 + dy);
         sprite.scale(0.3, 0.3);
-        n++;
+    } else {
+        sprite.setPosition(525 + x * 18, 25 + dy);
+        sprite.scale(0.3, 0.3);
     }
 }
 
@@ -100,4 +108,14 @@ int SPiece::GetType() const
 int SPiece::GetPosition() const
 {
     return position_int;
+}
+
+std::vector<int> SPiece::GetValidMoves() const
+{
+    return valid_moves;
+}
+
+void SPiece::SetValidMoves(std::vector<int> valid) 
+{
+    this->valid_moves = valid;
 }

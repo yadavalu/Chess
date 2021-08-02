@@ -18,12 +18,11 @@ public:
 
     int GetPiece(int, sf::Vector2i);
     int Move(int, int, sf::Vector2i);
-    void Remove(int, int);
 
-    std::vector<sf::Sprite> GetWhiteSprites();
-    std::vector<std::string> GetWhiteLocations();
-    std::vector<sf::Sprite> GetBlackSprites();
-    std::vector<std::string> GetBlackLocations();
+    std::array<SPiece, 16> GetPiecesArray(int) const;
+
+    std::vector<int> PossibleMoves(SPiece);
+    std::vector<int> PossibleTake(SPiece);
 
 private:
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
