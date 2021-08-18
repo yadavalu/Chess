@@ -41,10 +41,7 @@ int main(int argc, char const *argv[])
     white_points.setString(sf::String(std::to_string(white_points_int)));
     black_points.setString(sf::String(std::to_string(black_points_int)));
     white_points.setPosition(825, 50);
-    black_points.setPosition(825, 675);
-
-    std::cout << GetIntLocation("E2") << std::endl;
-     
+    black_points.setPosition(825, 675);     
 
     while (window.isOpen()) {
         sf::Event event;
@@ -72,6 +69,7 @@ int main(int argc, char const *argv[])
                         board.SetColours();
                     } else if (status == -2) {
                         moving = false;
+                        board.SetColours();
                     } else if (status == 0) {
                         board.UpdateColours(approx_pos, location);
                         turn++;

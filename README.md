@@ -1,5 +1,5 @@
 # Chess
-## A chess game written in SFML and Qt C++
+## A chess game written in SFML and C++
 
 This repository has a finished graphics for chess (located in branch Graphics).
 The AI is still in progress!
